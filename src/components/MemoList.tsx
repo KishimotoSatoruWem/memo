@@ -1,7 +1,6 @@
 import {
   Box,
   Card,
-  CardActions,
   CardContent,
   SxProps,
   TextField,
@@ -11,9 +10,7 @@ import {
   DialogTitle,
   IconButton,
   Alert,
-  InputLabel,
   MenuItem,
-  FormControl,
   InputAdornment,
 } from "@mui/material";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -28,7 +25,6 @@ import { AppDispatch, RootState } from "../store";
 import {
   createOrUpdateMemoAction,
   deleteMemoByIdAction,
-  getMemosAction,
   searchMemosAction,
 } from "../store/memosSlice";
 
@@ -36,9 +32,6 @@ import {
 export const MemoList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const memos = useSelector((state: RootState) => state.memosSlice.memos);
-  const lodaingCounter = useSelector(
-    (state: RootState) => state.memosSlice.lodaingCounter
-  );
   const [id, setId] = useState<string>("");
   const [user_id, setUserId] = useState<number>(1);
   const [body, setBody] = useState<string>("");
@@ -48,9 +41,6 @@ export const MemoList = () => {
   const [addFlg, setAddFlg] = useState(true);
   const [word, setWord] = useState<string>("");
 
-  const getMemos = async () => {
-    dispatch(getMemosAction());
-  };
   const deleteMemoById = async () => {
     dispatch(deleteMemoByIdAction(Number(id)));
   };
@@ -139,7 +129,7 @@ export const MemoList = () => {
       {memos.map((memo) => (
         <Card key={memo.id} sx={memoCardBg[memo.bg_color_id]}>
           <CardContent sx={sx.memoCardContent}>
-            <div onDoubleClick={(e: React.MouseEvent<HTMLDivElement>) => { editMemo(memo) }}><pre>{memo.body_limit}</pre></div>
+            <div onDoubleClick={() => { editMemo(memo) }}><pre>{memo.body_limit}</pre></div>
           </CardContent>
         </Card>
       ))}

@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { int11 } from './int11';
 /**
  * ユーザID、メモ本文、背景色IDをもつクラス
  */
@@ -10,7 +9,7 @@ export type StoreMemo = {
     /**
      * ユーザID
      */
-    user_id: int11;
+    user_id: number;
     /**
      * メモ本文
      */
@@ -18,6 +17,6 @@ export type StoreMemo = {
     /**
      * 背景色ID
      */
-    bg_color_id: int11;
+    bg_color_id: number;
 };
 

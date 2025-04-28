@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import { MemoList } from "./components/MemoList";
 import { store } from "./store";

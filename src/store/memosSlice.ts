@@ -87,13 +87,11 @@ export const memosSlice = createSlice({
     },
     increaseLoadingCounter: (
       state: MemosState,
-      action: PayloadAction<void>
     ) => {
       state.lodaingCounter++;
     },
     decreaseLoadingCounter: (
       state: MemosState,
-      action: PayloadAction<void>
     ) => {
       state.lodaingCounter--;
     },
