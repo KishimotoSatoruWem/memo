@@ -1,0 +1,262 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Memo API",
+        "description": "メモ管理 DB の API。<br>（注意: Servers プルダウンを選択しないで VSCode の Open API Viewer から Try it すると<br>プロトコルが「vscodewebview://」になってしまい Cors エラーが発生する）",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "開発環境"
+        }
+    ],
+    "paths": {
+        "/api/memos": {
+            "get": {
+                "tags": [
+                    "memos"
+                ],
+                "summary": "メモリスト取得",
+                "description": "メモリストを絞り込みなしで取得します。",
+                "operationId": "ListupMemos",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Cache-Control"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "メモリストを正常に取得しました。",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Memo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "memos"
+                ],
+                "summary": "メモ登録",
+                "description": "メモを登録し登録後のメモを取得します。",
+                "operationId": "CreateMemo",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Cache-Control"
+                    }
+                ],
+                "requestBody": {
+                    "description": "StoreMemo",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreMemo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "メモを正常に登録しました。",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Memo"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/memos/{id}": {
+            "delete": {
+                "tags": [
+                    "memos"
+                ],
+                "summary": "メモ削除",
+                "description": "メモを削除します。",
+                "operationId": "DeleteMemo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "削除対象メモのid",
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "メモを正常に削除しました。"
+                    },
+                    "404": {
+                        "description": "削除対象のメモが存在しません。"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "memos"
+                ],
+                "summary": "メモ更新",
+                "description": "メモを更新し更新後のメモを取得します。",
+                "operationId": "UpdateMemo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "更新対象メモのid",
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 0
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "StoreMemo",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreMemo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "メモを正常に更新しました。",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Memo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "更新対象のメモが存在しません。"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreMemo": {
+                "title": "StoreMemo",
+                "description": "ユーザID、メモ本文、背景色IDをもつクラス",
+                "required": [
+                    "user_id",
+                    "body",
+                    "bg_color_id"
+                ],
+                "properties": {
+                    "user_id": {
+                        "description": "ユーザID",
+                        "type": "int11",
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "body": {
+                        "description": "メモ本文",
+                        "type": "string",
+                        "example": "あいうえおかきくけこ",
+                        "nullable": false
+                    },
+                    "bg_color_id": {
+                        "description": "背景色ID",
+                        "type": "int11",
+                        "example": 0,
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Memo": {
+                "title": "Memo",
+                "description": "ユーザID、メモ本文、背景色IDをもつクラス",
+                "required": [
+                    "user_id",
+                    "body",
+                    "bg_color_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "id",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "user_id": {
+                        "description": "ユーザID",
+                        "type": "int11",
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "body": {
+                        "description": "メモ本文",
+                        "type": "string",
+                        "example": "あいうえおかきくけこ",
+                        "nullable": false
+                    },
+                    "bg_color_id": {
+                        "description": "背景色ID",
+                        "type": "int11",
+                        "example": 0,
+                        "nullable": false
+                    },
+                    "created_at": {
+                        "description": "created_at",
+                        "type": "string",
+                        "example": "2023-12-31T12:34:56.123456Z",
+                        "nullable": false
+                    },
+                    "updated_at": {
+                        "description": "updated_at",
+                        "type": "string",
+                        "example": "2023-12-31T12:34:56.123456Z",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "Cache-Control": {
+                "name": "Cache-Control",
+                "in": "header",
+                "required": false,
+                "schema": {
+                    "description": "キャッシュ指定（ブラウザ・経路・CDN）",
+                    "type": "string",
+                    "example": "no-cache"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "memos",
+            "description": "メモに関する API 群"
+        }
+    ]
+}
